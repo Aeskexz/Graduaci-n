@@ -1,0 +1,50 @@
+# Base local, respaldos y exportaciones de inscritos
+/_site/
+InvitacionGraduacion/
+data/
+datos/
+backups/
+respaldos/
+exports/
+exportaciones/
+*.sqlite*
+*.db
+*.db-*
+*.db3*
+*.sql
+*.dump
+*.bak
+*.backup
+*.csv
+*.tsv
+*.xlsx
+*.xls
+
+# Credenciales, llaves y configuración local
+.env*
+.npmrc
+.netrc
+.ssh/
+.cloudflared/
+.tailscale/
+credentials*
+credenciales*
+secrets/
+secretos/
+*.pem
+*.key
+*.pfx
+*.p12
+*.crt
+*.cer
+*.kdbx
+
+# Archivos de inicio de esta computadora
+/iniciar.md
+/iniciar.cmd
+
+# Registros de diagnóstico y archivos de referencia sin uso en la página
+*.log
+*.tmp
+/image.png
+/assets/graduacion.webp
