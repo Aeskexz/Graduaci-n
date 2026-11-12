@@ -9,7 +9,7 @@
   --gold: #9a7846;
   --serif: 'Cormorant Garamond', Georgia, serif;
   --display: 'Playfair Display', Georgia, serif;
-  --script: 'Great Vibes', 'Segoe Script', cursive;
+  --script: 'Great Vibes', Georgia, serif;
   --opening-ease: cubic-bezier(.22, .68, .22, 1);
 }
 
@@ -114,11 +114,12 @@ a { color: inherit; }
   display: grid;
   justify-items: center;
   align-content: center;
-  gap: clamp(5px, 2vw, 12px);
-  padding: 0 8px 8%;
+  gap: clamp(5px, 1.6vw, 8px);
+  padding: 0 8px 6%;
   border: 5px double #8298aa;
   background: radial-gradient(ellipse at 50% 8%, #fffdf8, var(--paper) 75%);
   color: var(--ink);
+  text-align: center;
   box-shadow: 0 7px 17px #1e35463d;
   pointer-events: auto;
 }
@@ -129,9 +130,10 @@ a { color: inherit; }
 
 .letter-name {
   display: block;
-  font: 400 clamp(1.7rem, 8.2vw, 3rem)/1.22 var(--script);
-  white-space: nowrap;
+  font: 400 clamp(1.25rem, 6.6vw, 1.75rem)/1.15 var(--script);
 }
+
+.letter-degree { font: 600 clamp(.875rem, 3.6vw, 1.125rem)/1.2 var(--serif); }
 
 .letter-ornament { color: var(--gold); font: 1.1rem/1 Georgia, serif; }
 
