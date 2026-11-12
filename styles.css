@@ -38,7 +38,7 @@ a { color: inherit; }
   display: grid;
   place-items: center;
   min-height: 100vh;
-  min-height: 100svh;
+  min-height: max(420px, 100svh);
   padding: 34px 26px;
   background: #f3f1e5 url('./assets/fondo-invitacion.png') center / 100% 100% no-repeat;
   list-style: none;
@@ -98,7 +98,7 @@ a { color: inherit; }
 
 .letter-slot {
   position: absolute;
-  inset: -78% 0 0;
+  inset: -105% 0 0;
   z-index: 2;
   overflow: hidden;
   visibility: hidden;
@@ -110,12 +110,12 @@ a { color: inherit; }
 .letter {
   position: absolute;
   inset: auto 6% 0;
-  height: 55%;
+  height: 48%;
   display: grid;
   justify-items: center;
-  align-content: start;
-  gap: 9px;
-  padding: 9% 4px 0;
+  align-content: center;
+  gap: clamp(5px, 2vw, 12px);
+  padding: 0 8px 8%;
   border: 5px double #8298aa;
   background: radial-gradient(ellipse at 50% 8%, #fffdf8, var(--paper) 75%);
   color: var(--ink);
@@ -124,12 +124,12 @@ a { color: inherit; }
 }
 
 .invitation[open] .letter {
-  transform: translateY(-58%);
+  transform: translateY(-95%);
 }
 
 .letter-name {
   display: block;
-  font: 400 clamp(1.95rem, 9.5vw, 3.1rem)/1.18 var(--script);
+  font: 400 clamp(1.7rem, 8.2vw, 3rem)/1.22 var(--script);
   white-space: nowrap;
 }
 
@@ -196,7 +196,7 @@ a { color: inherit; }
 
 @keyframes lift-letter {
   from { transform: translateY(82%); }
-  to { transform: translateY(-58%); }
+  to { transform: translateY(-95%); }
 }
 
 .guide {
@@ -246,7 +246,6 @@ a { color: inherit; }
 
 .guide h1 span, .registration-page h1 span { display: block; }
 
-.guide h1 { scroll-margin-top: 87px; }
 
 .guide-heading p {
   margin: 16px 0 0;
@@ -284,7 +283,7 @@ a { color: inherit; }
 
 .venue-map {
   overflow: hidden;
-  margin: 18px 0 3px;
+  margin: 18px auto 0;
   padding: 5px;
   border: 1px solid #8ca1ae;
   border-radius: 8px;
@@ -295,22 +294,27 @@ a { color: inherit; }
 .venue-map iframe {
   display: block;
   width: 100%;
-  height: 202px;
+  height: clamp(184px, 54vw, 228px);
   border: 0;
   border-radius: 4px 4px 0 0;
   background: #e7edf1;
 }
 
 .venue-map figcaption {
-  padding: 13px 6px 10px;
+  padding: 14px 9px 12px;
   border-top: 1px solid #b9c7ce;
 }
 
-.venue-map address { font: 600 1.12rem/1.22 var(--serif); }
+.venue-map address {
+  margin-top: 6px;
+  color: #465f71;
+  font: normal 400 .84rem/1.45 'DM Sans', Arial, sans-serif;
+}
 
 .venue-note {
-  margin: 13px 0 0;
-  font: 600 1.18rem/1.25 var(--serif);
+  margin: 0;
+  font: 700 1.25rem/1.15 var(--serif);
+  text-wrap: balance;
 }
 
 .venue-map a {
@@ -349,7 +353,11 @@ a { color: inherit; }
   pointer-events: none;
 }
 
-.registration-link { margin-top: 7px; }
+.step-rsvp { padding-top: 26px; }
+.registration-link {
+  width: min(100%, 248px);
+  margin-top: 9px;
+}
 .registration-link:hover, .registration-form button:hover {
   background: #365c7d;
   box-shadow: 0 5px 13px #203a5140;

@@ -1,11 +1,12 @@
 const invitation = document.querySelector('.invitation');
 const cover = invitation.querySelector('summary');
-const guideHeading = document.querySelector('#guia');
+const guide = document.querySelector('#guia');
+const guideHeading = document.querySelector('#guia-titulo');
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 function showGuide(behavior) {
   guideHeading.focus({ preventScroll: true });
-  guideHeading.scrollIntoView({ behavior, block: 'start' });
+  guide.scrollIntoView({ behavior, block: 'start' });
 }
 
 cover.addEventListener('click', (event) => {
@@ -15,7 +16,12 @@ cover.addEventListener('click', (event) => {
   showGuide(motionPreference.matches ? 'instant' : 'smooth');
 });
 
-if (window.location.hash === '#guia') {
+function openGuideFromHash() {
+  if (window.location.hash !== '#guia') return;
+
   invitation.open = true;
   showGuide('instant');
 }
+
+window.addEventListener('hashchange', openGuideFromHash);
+openGuideFromHash();

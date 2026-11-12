@@ -1,4 +1,5 @@
 const { copyFileSync, mkdirSync, readFileSync, writeFileSync } = require('node:fs');
+const { createHash } = require('node:crypto');
 const { join } = require('node:path');
 
 function publicOriginFrom(value) {
@@ -23,7 +24,11 @@ if (require.main === module) {
   for (const file of ['styles.css', 'motion.js', 'assets/favicon-32.png', 'assets/favicon-64.png', 'assets/fondo-invitacion.png']) {
     copyFileSync(join(__dirname, file), join(destination, file));
   }
-  const indexForPages = index.replace(localLink, 'href="' + origin + '/registro.html"');
+  let indexForPages = index.replace(localLink, 'href="' + origin + '/registro.html"');
+  for (const file of ['styles.css', 'motion.js']) {
+    const version = createHash('sha256').update(readFileSync(join(destination, file))).digest('hex').slice(0, 12);
+    indexForPages = indexForPages.replace(`"./${file}"`, `"./${file}?v=${version}"`);
+  }
   writeFileSync(join(destination, 'index.html'), indexForPages);
 }
 
