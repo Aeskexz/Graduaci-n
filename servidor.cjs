@@ -153,8 +153,7 @@ function startServer() {
       }
 
       if (url.pathname === '/registro.html' && request.method === 'GET') {
-        const confirmed = url.searchParams.get('estado') === 'guardado';
-        return showRegistration(response, 200, '', confirmed);
+        return showRegistration(response);
       }
 
       if (url.pathname === '/registro.html' && request.method === 'POST') {
@@ -186,8 +185,7 @@ function startServer() {
 
         insertRegistration.run(name, new Date().toISOString());
         refreshAttendeeReport();
-        response.writeHead(303, { Location: '/registro.html?estado=guardado' });
-        return response.end();
+        return showRegistration(response, 200, '', true);
       }
 
       const file = request.method === 'GET' && publicFiles.get(url.pathname);
