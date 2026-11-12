@@ -5,46 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
-  <meta name="theme-color" content="#100e0b">
+  <meta name="theme-color" content="#f7f4ec">
   <meta name="description" content="Invitación a la fiesta de graduación.">
   <title>Fiesta de graduación</title>
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="64x64" href="./assets/favicon-64.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=DM+Sans:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
   <script defer src="./motion.js"></script>
 </head>
 <body>
-  <main class="invitation" aria-labelledby="titulo">
-    <canvas class="particles" aria-hidden="true"></canvas>
+  <main class="stationery" aria-label="Invitación de graduación">
+    <details class="invitation">
+      <summary class="cover" aria-labelledby="accion-sobre">
+        <span class="visually-hidden" id="accion-sobre">
+          <span class="open-label">Abrir invitación</span>
+          <span class="continue-label">Fatima Gabriela. Ver detalles de la graduación</span>
+        </span>
+        <span class="envelope-art" aria-hidden="true">
+          <span class="envelope-back"></span>
+          <span class="envelope-flap"></span>
+          <span class="letter"><span class="letter-name">Fatima Gabriela</span></span>
+          <span class="envelope-pocket"></span>
+          <span class="wax-seal"></span>
+        </span>
+      </summary>
 
-    <header class="cover">
-      <div class="cap" aria-hidden="true">
-        <div class="cap-crown"></div>
-        <div class="cap-edge"></div>
-        <div class="cap-board"></div>
-        <div class="cap-cord"></div>
-        <div class="cap-pin"></div>
-        <div class="cap-tassel"></div>
-      </div>
-
-      <h1 id="titulo"><span class="title-prefix">Fiesta de</span> <span class="title-script">graduación</span></h1>
-      <p class="celebrate">Celebra con nosotros</p>
-      <div class="divider" aria-hidden="true"><span></span></div>
-    </header>
-
-    <div class="event-copy">
-      <time class="event-date" datetime="2026-11-25T16:00:00-06:00">
-        <span>Miércoles 25 de noviembre</span>
-        <strong>4:00 p. m.</strong>
-      </time>
-      <p class="graduate-name">Fatima Gabriela</p>
-      <p class="event-address">Calle Cualquiera</p>
-    </div>
-
-    <a class="registration-link" href="./registro.html">Registrarme para la graduación</a>
+      <section class="guide" aria-labelledby="guia">
+        <div class="guide-heading">
+          <h1 id="guia" tabindex="-1">Fiesta de graduación</h1>
+          <p>Celebra con nosotros</p>
+        </div>
+        <ol class="steps">
+          <li class="step">
+            <span class="step-number" aria-hidden="true">01</span>
+            <h2>Fecha y hora</h2>
+            <p class="step-detail"><time datetime="2026-11-25T16:00:00-06:00">Miércoles 25 de noviembre<br>4:00 p. m.</time></p>
+          </li>
+          <li class="step">
+            <span class="step-number" aria-hidden="true">02</span>
+            <h2>Lugar</h2>
+            <p class="step-detail">Calle Cualquiera</p>
+          </li>
+          <li class="step step-rsvp">
+            <span class="step-number" aria-hidden="true">03</span>
+            <h2>Confirma tu asistencia</h2>
+            <p>Deja tu nombre en el formulario de invitados.</p>
+            <a class="registration-link" href="./registro.html">Registrarme para la graduación <span aria-hidden="true">↗</span></a>
+          </li>
+        </ol>
+      </section>
+    </details>
   </main>
 </body>
 </html>

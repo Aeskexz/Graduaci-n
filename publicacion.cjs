@@ -20,7 +20,7 @@ if (require.main === module) {
 
   mkdirSync(destination);
   mkdirSync(join(destination, 'assets'));
-  for (const file of ['styles.css', 'motion.js', 'assets/favicon-32.png', 'assets/favicon-64.png']) {
+  for (const file of ['styles.css', 'motion.js', 'assets/favicon-32.png', 'assets/favicon-64.png', 'assets/fondo-invitacion.png']) {
     copyFileSync(join(__dirname, file), join(destination, file));
   }
   const indexForPages = index.replace(localLink, 'href="' + origin + '/registro.html"');

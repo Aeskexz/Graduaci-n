@@ -1,302 +1,298 @@
 :root {
-  color-scheme: dark;
-  background: #090807;
-  color: #f8e5b4;
+  color-scheme: light;
   font-family: 'DM Sans', Arial, sans-serif;
-  --light-gold: #f8df9c;
-  --gold: #e2b465;
+  color: #233d56;
+  background: #e8e7de;
+  --ink: #233d56;
+  --navy: #244867;
+  --paper: #fcfaf2;
+  --line: #8095a5;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --script: 'Great Vibes', 'Segoe Script', cursive;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; }
+a { color: inherit; }
 
-.invitation {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: min(100%, 480px);
-  min-height: 100vh;
-  min-height: 100svh;
-  margin-inline: auto;
-  padding: clamp(54px, 11svh, 106px) clamp(16px, 6vw, 34px) max(34px, calc(24px + env(safe-area-inset-bottom)));
-  text-align: center;
-  background:
-    radial-gradient(ellipse 90% 25% at 50% 0%, #322311, transparent),
-    radial-gradient(ellipse 82% 22% at 48% 100%, #25190d, transparent),
-    #100e0b;
-}
-
-.particles {
+.visually-hidden {
   position: absolute;
-  inset: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.cover { width: 100%; }
-
-.cap {
-  position: relative;
-  width: min(100%, 382px);
-  aspect-ratio: 1.56;
-  margin: 0 auto;
-  filter: drop-shadow(0 10px 17px #0007);
-  transform-origin: 51% 42%;
-}
-
-.cap > div { position: absolute; }
-
-.cap-crown {
-  top: 22%;
-  left: 26%;
-  width: 49%;
-  height: 43%;
-  border-radius: 0 0 49% 49% / 0 0 29% 29%;
-  background: linear-gradient(90deg, #936024, #be8738 17%, #eabb57 42%, #ffdd7b 63%, #c69137 86%, #8c5820);
-  box-shadow: inset 0 10px 15px #7b47187a;
-}
-
-.cap-board, .cap-edge {
-  inset: 0 0 auto;
-  height: 39%;
-  clip-path: polygon(50% 0, 100% 31%, 56% 100%, 0 38%);
-}
-
-.cap-edge {
-  top: 2.2%;
-  background: linear-gradient(110deg, #65401e, #d8ab58 55%, #a86c28);
-}
-
-.cap-board {
-  background: linear-gradient(105deg, #a37031 1%, #d7a54c 32%, #f8d578 66%, #ffe5a3 100%);
-}
-
-.cap-pin {
-  top: 8%;
-  left: 47%;
-  width: 8%;
-  height: 5.6%;
-  transform: rotate(-7deg);
-  border: 1px solid #f6d88d;
-  border-radius: 50%;
-  background: linear-gradient(165deg, #f8d781, #a66c25);
-  box-shadow: 0 1px 1px #805421;
-}
-
-.cap-cord {
-  top: 10%;
-  right: 10%;
-  width: 39%;
-  height: 48%;
-  border: solid #edc36d;
-  border-width: 3px 3px 0 0;
-  border-radius: 0 34% 0 0 / 0 25% 0 0;
-  filter: drop-shadow(1px 1px 0 #896125);
-  transform: skewY(5deg);
-  transform-origin: top left;
-}
-
-.cap-tassel {
-  top: 53%;
-  right: 9.2%;
-  width: 3.2%;
-  height: 39%;
-  border-radius: 48% 48% 16% 16% / 25% 25% 3% 3%;
-  border-top: 2px solid #ffe2a1;
-  background: repeating-linear-gradient(90deg, #936124 0 1px, #e4b25b 1px 2px, #f5cf7c 2px 3px);
-  box-shadow: 1px 0 2px #513319;
-  transform-origin: 50% 5%;
-}
-
-h1 {
-  position: relative;
-  width: fit-content;
-  margin: clamp(-53px, -11vw, -34px) auto 0;
-  font-weight: 400;
-  color: var(--light-gold);
-  text-shadow: 0 0 12px #e2a74570, 0 0 32px #ca8a3745;
-}
-
-.title-prefix {
-  display: block;
-  margin-bottom: 3px;
-  font: 700 clamp(.87rem, 4.1vw, 1.18rem)/1.15 'Cormorant Garamond', Georgia, serif;
-  letter-spacing: .31em;
-  text-indent: .31em;
-  text-transform: uppercase;
-}
-
-.title-script {
-  display: block;
-  padding-inline: .04em .13em;
-  font: 400 clamp(3.25rem, 16.7vw, 5.15rem)/1.13 'Great Vibes', 'Segoe Script', cursive;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
   white-space: nowrap;
 }
 
-.celebrate {
-  margin: 3px 0 0;
-  color: var(--light-gold);
-  font: 700 clamp(.75rem, 3.7vw, .96rem)/1.3 'Cormorant Garamond', Georgia, serif;
-  letter-spacing: .18em;
-  text-transform: uppercase;
+.stationery {
+  width: min(100%, 490px);
+  margin-inline: auto;
+  background: #f3f1e5;
 }
 
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 45%;
-  max-width: 174px;
-  margin: 18px auto 0;
-  color: #dbad5a;
-}
-
-.divider::before, .divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, currentColor);
-}
-
-.divider::after { transform: scaleX(-1); }
-
-.divider span {
-  width: 6px;
-  height: 6px;
-  border: 1px solid currentColor;
-  transform: rotate(45deg);
-}
-
-.event-copy {
-  width: 100%;
-  padding-block: clamp(26px, 4.8svh, 44px) clamp(48px, 8svh, 72px);
-}
-
-.event-date {
-  display: grid;
-  gap: 3px;
-  color: var(--light-gold);
-  font: 700 clamp(1.15rem, 5vw, 1.55rem)/1.18 'Cormorant Garamond', Georgia, serif;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  text-shadow: 0 0 14px #e2a74565;
-}
-
-.event-date strong { font-size: 1.22em; }
-
-.graduate-name {
-  margin: 20px 0 5px;
-  padding-inline: .12em;
-  color: var(--light-gold);
-  font: 400 clamp(2.45rem, 11vw, 3.45rem)/1.17 'Great Vibes', 'Segoe Script', cursive;
-  text-shadow: 0 0 16px #e2a7456b;
-}
-
-.event-address {
-  margin: 0;
-  color: #f3d493;
-  font: 700 clamp(.9rem, 4.2vw, 1.12rem)/1.35 'Cormorant Garamond', Georgia, serif;
-  letter-spacing: .1em;
-  overflow-wrap: anywhere;
-}
-
-.registration-link {
-  width: min(100%, 335px);
-  margin-top: auto;
-  text-decoration: none;
-  box-shadow: 0 2px 18px #bb7f3a45;
-}
-
-.registration-link, .registration-form button {
+.cover {
+  position: relative;
   display: grid;
   place-items: center;
-  min-height: 51px;
-  padding: 13px 14px;
-  border: 1px solid #f5d99b;
-  border-radius: 3px;
-  background: linear-gradient(110deg, #c38e45, #f4d68a 42%, #e3b767);
-  color: #24180a;
-  font: 700 .9rem/1.25 'DM Sans', Arial, sans-serif;
-  text-align: center;
-  cursor: pointer;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 34px 26px;
+  background: #f3f1e5 url('./assets/fondo-invitacion.png') center / 100% 100% no-repeat;
+  list-style: none;
+  pointer-events: none;
 }
 
-.registration-link:hover, .registration-form button:hover { filter: brightness(1.1); }
-.invitation :focus-visible { outline: 2px solid #fff1c2; outline-offset: 4px; }
+.cover::-webkit-details-marker { display: none; }
+.cover::marker { content: ''; }
+.continue-label, .invitation[open] .open-label { display: none; }
+.invitation[open] .continue-label { display: inline; }
 
-.registration-page { gap: 18px; }
-.registration-page h1 {
-  margin: 22px 0 0;
-  font: 700 clamp(2rem, 9vw, 3rem)/1.05 'Cormorant Garamond', Georgia, serif;
-  animation: none;
+.cover:focus-visible { outline: none; }
+.cover:focus-visible .envelope-art, a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid #244867;
+  outline-offset: 6px;
+}
+
+.envelope-art {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 340px);
+  aspect-ratio: 1.57;
+  margin-top: 8svh;
+  transform: rotate(-4deg);
+  transition: transform .48s ease;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+
+.invitation[open] .envelope-art { transform: translateY(7%) rotate(-1deg); }
+
+.envelope-back, .envelope-pocket {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+}
+
+.envelope-back {
+  background: #34536e;
+  box-shadow: 0 15px 24px #1b33404a, 0 2px 5px #1c33464a;
+}
+
+.envelope-flap {
+  position: absolute;
+  z-index: 4;
+  inset: 0 0 34%;
+  background: linear-gradient(165deg, #7392a6, #4a6983 64%, #355672);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: center top;
+  transition: transform .48s ease;
+}
+
+.invitation[open] .envelope-flap {
+  z-index: 1;
+  transform: rotateX(180deg);
+}
+
+.letter {
+  position: absolute;
+  z-index: 2;
+  inset: 4% 7% 0;
+  display: grid;
+  place-items: start center;
+  padding: 19% 6px 0;
+  border: 5px double #8298aa;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 5px 16px #1e354632;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, transform .58s cubic-bezier(.2,.7,.2,1);
+}
+
+.invitation[open] .letter {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(-52%);
+  transition-delay: .1s;
+}
+
+.letter-name {
+  display: block;
+  font: 400 clamp(1.93rem, 9vw, 3rem)/1.1 var(--script);
+  white-space: nowrap;
+}
+
+.envelope-pocket {
+  z-index: 3;
+  overflow: hidden;
+  background: linear-gradient(130deg, #6989a1, #385a75 59%, #294b65);
+  clip-path: polygon(0 0, 50% 57%, 100% 0, 100% 100%, 0 100%);
+}
+
+.envelope-pocket::before, .envelope-pocket::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+}
+
+.envelope-pocket::before {
+  background: linear-gradient(240deg, #567994, #28465f 88%);
+  clip-path: polygon(100% 0, 100% 100%, 23% 100%);
+}
+
+.envelope-pocket::after {
+  background: linear-gradient(155deg, #7a9aad, #405f7b 80%);
+  clip-path: polygon(50% 54%, 100% 100%, 0 100%);
+}
+
+.wax-seal {
+  position: absolute;
+  z-index: 5;
+  top: 64%;
+  left: 50%;
+  width: clamp(38px, 12vw, 51px);
+  aspect-ratio: 1;
+  border: 1px solid #bda87e;
+  border-radius: 48% 51% 46% 53%;
+  background: radial-gradient(circle at 34% 25%, #f5e8c9, #cbae7c);
+  box-shadow: 2px 4px 8px #26374d60, inset 0 0 0 4px #e6d5b1, inset 0 0 0 5px #ab9269;
+  transform: translate(-50%, -50%);
+  transition: opacity .2s ease;
+}
+
+.invitation[open] .wax-seal { opacity: 0; }
+
+.guide {
+  min-height: 100svh;
+  padding: 48px clamp(22px, 8vw, 46px) max(56px, env(safe-area-inset-bottom));
+  background: var(--paper);
+}
+
+.guide-heading { margin: 0 0 31px; text-align: center; }
+
+.guide h1, .registration-page h1 {
+  margin: 0;
+  font: 600 clamp(2.65rem, 11vw, 3.7rem)/.93 var(--serif);
   text-wrap: balance;
 }
 
+.guide h1 { scroll-margin-top: 25px; }
+
+.guide-heading p {
+  margin: 13px 0 0;
+  font: 600 1.34rem/1.15 var(--serif);
+}
+
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: 12px;
+  padding: 19px 0 21px;
+  border-top: 1px solid #b3c0c6;
+}
+
+.step-number {
+  grid-column: 1;
+  grid-row: 1;
+  color: #48637a;
+  font: 600 1.14rem/1 var(--serif);
+}
+
+.step h2 {
+  grid-column: 2;
+  margin: 0 0 7px;
+  font: 700 1.75rem/1.05 var(--serif);
+}
+
+.step p {
+  grid-column: 2;
+  margin: 0;
+  color: #3e586d;
+  font-size: .91rem;
+  line-height: 1.5;
+}
+
+.step .step-detail { color: var(--ink); font: 600 1.28rem/1.2 var(--serif); }
+
+.registration-link, .registration-form button {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--navy);
+  border-radius: 2px;
+  background: var(--navy);
+  color: #fff;
+  font: 600 .84rem/1.25 'DM Sans', Arial, sans-serif;
+  text-align: center;
+  text-decoration: none;
+}
+
+.registration-link { grid-column: 2; justify-self: start; margin-top: 13px; }
+.registration-link:hover, .registration-form button:hover { background: #375e7f; }
+
+.registration-page {
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: max(36px, env(safe-area-inset-top)) clamp(26px, 9vw, 54px) max(38px, env(safe-area-inset-bottom));
+  background: #fff url('./assets/fondo-registro.png') center / 100% 100% no-repeat;
+}
+
 .back-link {
-  align-self: flex-start;
-  padding-block: 10px;
-  color: inherit;
-  font-size: .9rem;
+  display: block;
+  width: fit-content;
+  margin-bottom: 24px;
+  padding: 6px 7px;
+  background: #fffffff2;
+  font-size: .86rem;
   text-underline-offset: 3px;
+}
+
+.registration-page h1 {
+  max-width: 320px;
+  margin: 0 auto 18px;
+  text-align: center;
+}
+
+.registration-panel {
+  margin-top: clamp(12px, 4svh, 46px);
+  padding: clamp(16px, 5vw, 26px);
+  border: 1px solid #879cab;
+  background: #fffffff5;
 }
 
 .registration-form {
   display: grid;
   gap: 9px;
-  width: min(100%, 335px);
-  padding: 16px;
-  border: 1px solid #765a31;
-  border-radius: 3px;
-  background: #1b1510;
   text-align: left;
 }
 
-.registration-form label { margin-top: 4px; font-size: .88rem; font-weight: 600; }
+.registration-form label { font-size: .89rem; font-weight: 700; }
 .registration-form input {
   width: 100%;
   min-height: 46px;
-  padding: 8px 10px;
-  border: 1px solid #9c7b45;
-  border-radius: 3px;
-  background: #100e0b;
-  color: inherit;
+  padding: 9px 11px;
+  border: 1px solid #71899a;
+  border-radius: 2px;
+  background: #fff;
+  color: var(--ink);
   font: inherit;
-  font-size: 1rem;
-}
-.registration-form button { margin-top: 4px; }
-.registration-status {
-  width: min(100%, 335px);
-  margin: 0;
-  font-size: .93rem;
-  line-height: 1.5;
 }
 
-@media (min-width: 481px) {
-  .invitation { box-shadow: 0 0 0 1px #392d1a, 0 0 80px #9c6b271c; }
-}
+.registration-form button { margin-top: 5px; cursor: pointer; }
+.registration-status { margin: 0 0 14px; color: var(--ink); line-height: 1.4; }
 
-@media (prefers-reduced-motion: no-preference) {
-  .cap { animation: cap-float 7s ease-in-out infinite; }
-  .cap-tassel { animation: tassel-sway 7s ease-in-out infinite; }
-  h1 { animation: title-float 8s ease-in-out infinite; }
-}
-
-@keyframes cap-float {
-  0%, 100% { transform: translateY(0) rotate(-.8deg); }
-  50% { transform: translateY(-8px) rotate(.8deg); }
-}
-
-@keyframes tassel-sway {
-  0%, 100% { transform: rotate(-2.5deg); }
-  50% { transform: rotate(2.5deg); }
-}
-
-@keyframes title-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(3px); }
+@media (prefers-reduced-motion: reduce) {
+  .envelope-art, .envelope-flap, .letter, .wax-seal { transition: none; }
 }

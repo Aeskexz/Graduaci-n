@@ -60,6 +60,8 @@ function startServer() {
     ['/motion.js', ['motion.js', 'text/javascript; charset=utf-8']],
     ['/assets/favicon-32.png', ['assets/favicon-32.png', 'image/png']],
     ['/assets/favicon-64.png', ['assets/favicon-64.png', 'image/png']],
+    ['/assets/fondo-invitacion.png', ['assets/fondo-invitacion.png', 'image/png']],
+    ['/assets/fondo-registro.png', ['assets/fondo-registro.png', 'image/png']],
   ]);
   const registrationPage = readFileSync(join(__dirname, 'registro.html'), 'utf8');
 
