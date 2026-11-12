@@ -199,6 +199,8 @@ a { color: inherit; }
   to { transform: translateY(-95%); }
 }
 
+.invitation.interactive:not(.guide-revealed) .guide { display: none; }
+
 .guide {
   position: relative;
   min-height: 100svh;

@@ -1,4 +1,4 @@
-const { mkdirSync, readFileSync, writeFileSync } = require('node:fs');
+const { mkdirSync, readFileSync, renameSync, writeFileSync } = require('node:fs');
 const { createServer } = require('node:http');
 const { homedir, networkInterfaces } = require('node:os');
 const { join } = require('node:path');
@@ -23,9 +23,23 @@ database.exec(`
 
 const mode = process.argv[2];
 if (mode === '--asistentes') {
-  const rows = database.prepare('SELECT nombre FROM registros ORDER BY id').all();
+  try {
+    console.log(writeAttendeeReport());
+  } finally {
+    database.close();
+  }
+} else if (mode === '--registros') {
+  const rows = database.prepare('SELECT id, nombre, registrado_utc FROM registros ORDER BY id').all();
+  console.log(databasePath);
+  if (rows.length) console.table(rows);
+  else console.log('Aún no hay inscripciones.');
   database.close();
+} else {
+  startServer();
+}
 
+function writeAttendeeReport() {
+  const rows = database.prepare('SELECT nombre FROM registros ORDER BY id').all();
   const names = rows.map(({ nombre }) => {
     const escapedName = nombre.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
     return `      <li>${escapedName}</li>`;
@@ -34,8 +48,9 @@ if (mode === '--asistentes') {
     ? `    <ol>\n${names.join('\n')}\n    </ol>`
     : '    <p>Aún no hay confirmaciones de asistencia.</p>';
   const reportPath = join(dataDirectory, 'asistentes.html');
+  const temporaryPath = join(dataDirectory, `asistentes-${process.pid}.tmp`);
 
-  writeFileSync(reportPath, `<!doctype html>
+  writeFileSync(temporaryPath, `<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
@@ -60,15 +75,16 @@ ${content}
 </html>
 `, { encoding: 'utf8', mode: 0o600 });
 
-  console.log(reportPath);
-} else if (mode === '--registros') {
-  const rows = database.prepare('SELECT id, nombre, registrado_utc FROM registros ORDER BY id').all();
-  console.log(databasePath);
-  if (rows.length) console.table(rows);
-  else console.log('Aún no hay inscripciones.');
-  database.close();
-} else {
-  startServer();
+  renameSync(temporaryPath, reportPath);
+  return reportPath;
+}
+
+function refreshAttendeeReport() {
+  try {
+    writeAttendeeReport();
+  } catch (error) {
+    console.error('No se pudo actualizar la lista privada de asistentes:', error.message);
+  }
 }
 
 function startServer() {
@@ -167,6 +183,7 @@ function startServer() {
         }
 
         insertRegistration.run(name, new Date().toISOString());
+        refreshAttendeeReport();
         response.writeHead(303, { Location: '/registro.html?estado=guardado' });
         return response.end();
       }
@@ -189,6 +206,7 @@ function startServer() {
   });
 
   server.listen(port, publicOrigin ? '127.0.0.1' : '0.0.0.0', () => {
+    refreshAttendeeReport();
     console.log('En esta computadora: http://127.0.0.1:' + port);
     if (publicOrigin) {
       console.log('Formulario por el túnel: ' + publicOrigin + '/registro.html');
