@@ -3,7 +3,7 @@ const { createServer } = require('node:http');
 const { homedir, networkInterfaces } = require('node:os');
 const { join } = require('node:path');
 const { DatabaseSync } = require('node:sqlite');
-const { publicOriginFrom } = require('./publicacion.cjs');
+const { publicOriginFrom, useWebpBackgrounds } = require('./publicacion.cjs');
 
 const dataDirectory = process.env.GRADUACION_DATA_DIR
   || join(process.env.LOCALAPPDATA || join(homedir(), 'AppData', 'Local'), 'InvitacionGraduacion');
@@ -118,8 +118,10 @@ function startServer() {
     ['/assets/favicon-64.png', ['assets/favicon-64.png', 'image/png']],
     ['/assets/fondo-invitacion.png', ['assets/fondo-invitacion.png', 'image/png']],
     ['/assets/fondo-registro.png', ['assets/fondo-registro.png', 'image/png']],
+    ['/assets/fondo-invitacion.webp', ['assets/fondo-invitacion.webp', 'image/webp']],
+    ['/assets/fondo-registro.webp', ['assets/fondo-registro.webp', 'image/webp']],
   ]);
-  const registrationPage = readFileSync(join(__dirname, 'registro.html'), 'utf8');
+  const registrationPage = useWebpBackgrounds(readFileSync(join(__dirname, 'registro.html'), 'utf8'));
 
   function showRegistration(response, status = 200, message = '', confirmed = false) {
     const notice = confirmed
@@ -191,7 +193,10 @@ function startServer() {
       const file = request.method === 'GET' && publicFiles.get(url.pathname);
       if (file) {
         const [filename, contentType] = file;
-        const contents = readFileSync(join(__dirname, filename));
+        const path = join(__dirname, filename);
+        const contents = filename === 'index.html' || filename === 'styles.css'
+          ? useWebpBackgrounds(readFileSync(path, 'utf8'))
+          : readFileSync(path);
         response.writeHead(200, { 'Content-Type': contentType });
         return response.end(contents);
       }

@@ -12,6 +12,10 @@ function publicOriginFrom(value) {
   return url.origin;
 }
 
+function useWebpBackgrounds(contents) {
+  return contents.replace(/(assets\/fondo-(?:invitacion|registro))\.png/g, '$1.webp');
+}
+
 if (require.main === module) {
   const origin = publicOriginFrom(process.env.GRADUACION_PUBLIC_URL || '');
   const destination = process.argv[2] || '_site';
@@ -21,10 +25,12 @@ if (require.main === module) {
 
   mkdirSync(destination);
   mkdirSync(join(destination, 'assets'));
-  for (const file of ['styles.css', 'motion.js', 'assets/favicon-32.png', 'assets/favicon-64.png', 'assets/fondo-invitacion.png']) {
+  for (const file of ['motion.js', 'assets/favicon-32.png', 'assets/favicon-64.png', 'assets/fondo-invitacion.webp']) {
     copyFileSync(join(__dirname, file), join(destination, file));
   }
-  let indexForPages = index.replace(localLink, 'href="' + origin + '/registro.html"');
+  const styles = readFileSync(join(__dirname, 'styles.css'), 'utf8');
+  writeFileSync(join(destination, 'styles.css'), useWebpBackgrounds(styles));
+  let indexForPages = useWebpBackgrounds(index).replace(localLink, 'href="' + origin + '/registro.html"');
   for (const file of ['styles.css', 'motion.js']) {
     const version = createHash('sha256').update(readFileSync(join(destination, file))).digest('hex').slice(0, 12);
     indexForPages = indexForPages.replace(`"./${file}"`, `"./${file}?v=${version}"`);
@@ -32,4 +38,4 @@ if (require.main === module) {
   writeFileSync(join(destination, 'index.html'), indexForPages);
 }
 
-module.exports = { publicOriginFrom };
+module.exports = { publicOriginFrom, useWebpBackgrounds };
