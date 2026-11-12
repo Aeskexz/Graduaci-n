@@ -1,4 +1,4 @@
-const { mkdirSync, readFileSync } = require('node:fs');
+const { mkdirSync, readFileSync, writeFileSync } = require('node:fs');
 const { createServer } = require('node:http');
 const { homedir, networkInterfaces } = require('node:os');
 const { join } = require('node:path');
@@ -21,7 +21,47 @@ database.exec(`
   ) STRICT;
 `);
 
-if (process.argv[2] === '--registros') {
+const mode = process.argv[2];
+if (mode === '--asistentes') {
+  const rows = database.prepare('SELECT nombre FROM registros ORDER BY id').all();
+  database.close();
+
+  const names = rows.map(({ nombre }) => {
+    const escapedName = nombre.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+    return `      <li>${escapedName}</li>`;
+  });
+  const content = names.length
+    ? `    <ol>\n${names.join('\n')}\n    </ol>`
+    : '    <p>Aún no hay confirmaciones de asistencia.</p>';
+  const reportPath = join(dataDirectory, 'asistentes.html');
+
+  writeFileSync(reportPath, `<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+  <title>Asistentes · Fiesta de graduación</title>
+  <style>
+    body { margin: 0; padding: 1.5rem; background: #f4f1e9; color: #20364b; font: 1rem/1.5 system-ui, sans-serif; }
+    main { max-width: 38rem; margin: 2rem auto; padding: clamp(1.25rem, 5vw, 3rem); background: #fffdf8; border: 1px solid #c9d3db; }
+    h1 { margin: 0; font: 2rem/1.15 Georgia, serif; }
+    ol { padding-inline-start: 1.5rem; }
+    li { padding: .45rem .25rem; border-bottom: 1px solid #dce2e6; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Asistentes a la graduación</h1>
+    <p>Total de confirmaciones: ${rows.length}</p>
+${content}
+  </main>
+</body>
+</html>
+`, { encoding: 'utf8', mode: 0o600 });
+
+  console.log(reportPath);
+} else if (mode === '--registros') {
   const rows = database.prepare('SELECT id, nombre, registrado_utc FROM registros ORDER BY id').all();
   console.log(databasePath);
   if (rows.length) console.table(rows);
@@ -65,10 +105,14 @@ function startServer() {
   ]);
   const registrationPage = readFileSync(join(__dirname, 'registro.html'), 'utf8');
 
-  function showRegistration(response, status = 200, message = '') {
-    const notice = message ? '<p class="registration-status">' + message + '</p>' : '';
+  function showRegistration(response, status = 200, message = '', confirmed = false) {
+    const notice = confirmed
+      ? '<p class="registration-confirmation" role="status">Muchas gracias, ¡te esperamos!</p>'
+      : message ? '<p class="registration-status">' + message + '</p>' : '';
+    let page = registrationPage.replace('<!-- registration-status -->', notice);
+    if (confirmed) page = page.replace('<form class="registration-form"', '<form hidden class="registration-form"');
     response.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8' });
-    response.end(registrationPage.replace('<!-- registration-status -->', notice));
+    response.end(page);
   }
 
   const server = createServer({ headersTimeout: 10_000, requestTimeout: 20_000 }, async (request, response) => {
@@ -91,8 +135,8 @@ function startServer() {
       }
 
       if (url.pathname === '/registro.html' && request.method === 'GET') {
-        const message = url.searchParams.get('estado') === 'guardado' ? 'Tu inscripción quedó registrada.' : '';
-        return showRegistration(response, 200, message);
+        const confirmed = url.searchParams.get('estado') === 'guardado';
+        return showRegistration(response, 200, '', confirmed);
       }
 
       if (url.pathname === '/registro.html' && request.method === 'POST') {

@@ -3,12 +3,14 @@
   font-family: 'DM Sans', Arial, sans-serif;
   color: #233d56;
   background: #e8e7de;
-  --ink: #233d56;
+  --ink: #203a51;
   --navy: #244867;
-  --paper: #fcfaf2;
-  --line: #8095a5;
+  --paper: #fcfaf3;
+  --gold: #9a7846;
   --serif: 'Cormorant Garamond', Georgia, serif;
+  --display: 'Playfair Display', Georgia, serif;
   --script: 'Great Vibes', 'Segoe Script', cursive;
+  --opening-ease: cubic-bezier(.22, .68, .22, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -61,13 +63,13 @@ a { color: inherit; }
   aspect-ratio: 1.57;
   margin-top: 8svh;
   transform: rotate(-4deg);
-  transition: transform .48s ease;
+  transition: transform 1s var(--opening-ease);
   cursor: pointer;
   pointer-events: auto;
   touch-action: manipulation;
 }
 
-.invitation[open] .envelope-art { transform: translateY(7%) rotate(-1deg); }
+.invitation[open] .envelope-art { transform: translateY(10%) rotate(-1deg); }
 
 .envelope-back, .envelope-pocket {
   position: absolute;
@@ -87,7 +89,6 @@ a { color: inherit; }
   background: linear-gradient(165deg, #7392a6, #4a6983 64%, #355672);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   transform-origin: center top;
-  transition: transform .48s ease;
 }
 
 .invitation[open] .envelope-flap {
@@ -95,34 +96,44 @@ a { color: inherit; }
   transform: rotateX(180deg);
 }
 
+.letter-slot {
+  position: absolute;
+  inset: -78% 0 0;
+  z-index: 2;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.invitation[open] .letter-slot { visibility: visible; }
+
 .letter {
   position: absolute;
-  z-index: 2;
-  inset: 4% 7% 0;
+  inset: auto 6% 0;
+  height: 55%;
   display: grid;
-  place-items: start center;
-  padding: 19% 6px 0;
+  justify-items: center;
+  align-content: start;
+  gap: 9px;
+  padding: 9% 4px 0;
   border: 5px double #8298aa;
-  background: var(--paper);
+  background: radial-gradient(ellipse at 50% 8%, #fffdf8, var(--paper) 75%);
   color: var(--ink);
-  box-shadow: 0 5px 16px #1e354632;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .3s ease, transform .58s cubic-bezier(.2,.7,.2,1);
+  box-shadow: 0 7px 17px #1e35463d;
+  pointer-events: auto;
 }
 
 .invitation[open] .letter {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(-52%);
-  transition-delay: .1s;
+  transform: translateY(-58%);
 }
 
 .letter-name {
   display: block;
-  font: 400 clamp(1.93rem, 9vw, 3rem)/1.1 var(--script);
+  font: 400 clamp(1.95rem, 9.5vw, 3.1rem)/1.18 var(--script);
   white-space: nowrap;
 }
+
+.letter-ornament { color: var(--gold); font: 1.1rem/1 Georgia, serif; }
 
 .envelope-pocket {
   z-index: 3;
@@ -159,30 +170,87 @@ a { color: inherit; }
   background: radial-gradient(circle at 34% 25%, #f5e8c9, #cbae7c);
   box-shadow: 2px 4px 8px #26374d60, inset 0 0 0 4px #e6d5b1, inset 0 0 0 5px #ab9269;
   transform: translate(-50%, -50%);
-  transition: opacity .2s ease;
+  transition: opacity .35s ease, transform .45s var(--opening-ease);
 }
 
-.invitation[open] .wax-seal { opacity: 0; }
+.invitation[open] .wax-seal {
+  opacity: 0;
+  transform: translate(-50%, -39%) rotate(12deg) scale(.93);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .invitation[open] .envelope-flap {
+    animation: lift-flap .68s .12s var(--opening-ease) both;
+  }
+  .invitation[open] .letter {
+    animation: lift-letter .88s .51s var(--opening-ease) both;
+  }
+}
+
+@keyframes lift-flap {
+  0% { transform: perspective(680px) rotateX(0); z-index: 4; }
+  50% { transform: perspective(680px) rotateX(90deg); z-index: 4; }
+  51% { z-index: 1; }
+  100% { transform: perspective(680px) rotateX(180deg); z-index: 1; }
+}
+
+@keyframes lift-letter {
+  from { transform: translateY(82%); }
+  to { transform: translateY(-58%); }
+}
 
 .guide {
+  position: relative;
   min-height: 100svh;
-  padding: 48px clamp(22px, 8vw, 46px) max(56px, env(safe-area-inset-bottom));
-  background: var(--paper);
+  padding: 53px clamp(31px, 10vw, 54px) max(74px, env(safe-area-inset-bottom));
+  background:
+    linear-gradient(180deg, #fcfaf3b5, #fcfaf3fa 25%, #fcfaf3fa 77%, #fcfaf3c2),
+    url('./assets/fondo-invitacion.png') center / 100% 100% no-repeat,
+    var(--paper);
 }
 
-.guide-heading { margin: 0 0 31px; text-align: center; }
+.guide::before {
+  position: absolute;
+  inset: 15px;
+  border: 3px double #859aa878;
+  content: '';
+  pointer-events: none;
+}
+
+.guide-heading { margin: 0 0 35px; text-align: center; }
+
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  max-width: 120px;
+  margin: 0 auto 15px;
+  color: var(--gold);
+  font: 1.3rem/1 Georgia, serif;
+}
+
+.ornament::before, .ornament::after {
+  width: 33px;
+  height: 1px;
+  background: #aa8c5a90;
+  content: '';
+}
 
 .guide h1, .registration-page h1 {
   margin: 0;
-  font: 600 clamp(2.65rem, 11vw, 3.7rem)/.93 var(--serif);
+  font: 500 clamp(2.18rem, 9.5vw, 3.15rem)/1.1 var(--display);
+  letter-spacing: -.045em;
   text-wrap: balance;
 }
 
-.guide h1 { scroll-margin-top: 25px; }
+.guide h1 span, .registration-page h1 span { display: block; }
+
+.guide h1 { scroll-margin-top: 87px; }
 
 .guide-heading p {
-  margin: 13px 0 0;
-  font: 600 1.34rem/1.15 var(--serif);
+  margin: 16px 0 0;
+  font: 600 1.28rem/1.2 var(--serif);
 }
 
 .steps {
@@ -191,56 +259,101 @@ a { color: inherit; }
   list-style: none;
 }
 
-.step {
-  display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
-  align-items: baseline;
-  column-gap: 12px;
-  padding: 19px 0 21px;
-  border-top: 1px solid #b3c0c6;
-}
-
-.step-number {
-  grid-column: 1;
-  grid-row: 1;
-  color: #48637a;
-  font: 600 1.14rem/1 var(--serif);
-}
+.step { padding: 19px 0 21px; border-top: 1px solid #a1b0b7; text-align: center; }
 
 .step h2 {
-  grid-column: 2;
-  margin: 0 0 7px;
-  font: 700 1.75rem/1.05 var(--serif);
+  margin: 0 0 8px;
+  color: #354f63;
+  font: 600 .72rem/1.35 'DM Sans', Arial, sans-serif;
+  letter-spacing: .15em;
+  text-transform: uppercase;
 }
 
-.step p {
-  grid-column: 2;
+.step-detail {
   margin: 0;
-  color: #3e586d;
-  font-size: .91rem;
-  line-height: 1.5;
+  font: 600 1.54rem/1.16 var(--serif);
 }
 
-.step .step-detail { color: var(--ink); font: 600 1.28rem/1.2 var(--serif); }
+.venue-name span {
+  display: block;
+  margin-top: 5px;
+  color: #465f71;
+  font: 600 .78rem/1.3 'DM Sans', Arial, sans-serif;
+  letter-spacing: .055em;
+}
+
+.venue-map {
+  overflow: hidden;
+  margin: 18px 0 3px;
+  padding: 5px;
+  border: 1px solid #8ca1ae;
+  border-radius: 8px;
+  background: #fffdf7;
+  box-shadow: 0 5px 15px #243f5615;
+}
+
+.venue-map iframe {
+  display: block;
+  width: 100%;
+  height: 202px;
+  border: 0;
+  border-radius: 4px 4px 0 0;
+  background: #e7edf1;
+}
+
+.venue-map figcaption {
+  padding: 13px 6px 10px;
+  border-top: 1px solid #b9c7ce;
+}
+
+.venue-map address { font: 600 1.12rem/1.22 var(--serif); }
+
+.venue-note {
+  margin: 13px 0 0;
+  font: 600 1.18rem/1.25 var(--serif);
+}
+
+.venue-map a {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 3px;
+  font-size: .77rem;
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
 
 .registration-link, .registration-form button {
+  position: relative;
   display: inline-flex;
-  min-height: 46px;
+  min-height: 53px;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 10px 14px;
-  border: 1px solid var(--navy);
-  border-radius: 2px;
-  background: var(--navy);
-  color: #fff;
-  font: 600 .84rem/1.25 'DM Sans', Arial, sans-serif;
+  padding: 12px clamp(14px, 6vw, 32px);
+  border: 1px solid #233e56;
+  border-radius: 28px;
+  background: linear-gradient(150deg, #355d7d, #203f5b 72%);
+  color: #fffaf1;
+  box-shadow: 0 4px 10px #203a5129;
+  font: 700 1.2rem/1.17 var(--serif);
   text-align: center;
   text-decoration: none;
+  transition: box-shadow .22s ease, background-color .22s ease;
 }
 
-.registration-link { grid-column: 2; justify-self: start; margin-top: 13px; }
-.registration-link:hover, .registration-form button:hover { background: #375e7f; }
+.registration-link::before, .registration-form button::before {
+  position: absolute;
+  inset: 4px;
+  border: 1px solid #e2c8978c;
+  border-radius: inherit;
+  content: '';
+  pointer-events: none;
+}
+
+.registration-link { margin-top: 7px; }
+.registration-link:hover, .registration-form button:hover {
+  background: #365c7d;
+  box-shadow: 0 5px 13px #203a5140;
+}
 
 .registration-page {
   min-height: 100vh;
@@ -261,38 +374,67 @@ a { color: inherit; }
 
 .registration-page h1 {
   max-width: 320px;
-  margin: 0 auto 18px;
+  margin: 0 auto 29px;
+  font-size: clamp(1.88rem, 8.6vw, 2.7rem);
   text-align: center;
 }
 
 .registration-panel {
   margin-top: clamp(12px, 4svh, 46px);
-  padding: clamp(16px, 5vw, 26px);
-  border: 1px solid #879cab;
-  background: #fffffff5;
+  padding: 29px clamp(17px, 5vw, 30px) 27px;
+  border: 4px double #819aaa;
+  border-radius: 38px 38px 8px 8px;
+  background: #fffdf7f5;
+  box-shadow: 0 8px 25px #27455c19;
 }
 
-.registration-form {
+.registration-form:not([hidden]) {
   display: grid;
-  gap: 9px;
+  gap: 22px;
   text-align: left;
 }
 
-.registration-form label { font-size: .89rem; font-weight: 700; }
-.registration-form input {
-  width: 100%;
-  min-height: 46px;
-  padding: 9px 11px;
-  border: 1px solid #71899a;
-  border-radius: 2px;
-  background: #fff;
-  color: var(--ink);
-  font: inherit;
+.name-field label {
+  display: block;
+  color: #465f71;
+  font: 600 .73rem/1.3 'DM Sans', Arial, sans-serif;
+  letter-spacing: .13em;
+  text-transform: uppercase;
 }
 
-.registration-form button { margin-top: 5px; cursor: pointer; }
+.name-field input {
+  width: 100%;
+  min-height: 46px;
+  padding: 8px 1px 4px;
+  border: 0;
+  border-bottom: 1px solid #6e8797;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 600 1.3rem/1.2 var(--serif);
+}
+
+.name-field input:focus {
+  outline: none;
+  border-color: var(--navy);
+  box-shadow: 0 1px var(--navy);
+}
+
+.registration-form button { justify-self: center; cursor: pointer; }
 .registration-status { margin: 0 0 14px; color: var(--ink); line-height: 1.4; }
 
+.registration-confirmation {
+  margin: 0;
+  padding: 24px clamp(12px, 5vw, 26px);
+  border: 3px double #b29a70;
+  border-radius: 5px;
+  background: #f6f1e4;
+  color: var(--ink);
+  font: 600 clamp(1.65rem, 6vw, 2.15rem)/1.18 var(--serif);
+  text-align: center;
+  text-wrap: balance;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .envelope-art, .envelope-flap, .letter, .wax-seal { transition: none; }
+  .envelope-art, .envelope-flap, .letter, .wax-seal, .registration-link, .registration-form button { transition: none; }
 }

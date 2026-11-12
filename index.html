@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; frame-src https://www.google.com; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <meta name="theme-color" content="#f7f4ec">
   <meta name="description" content="Invitación a la fiesta de graduación.">
@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="64x64" href="./assets/favicon-64.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;600&family=Great+Vibes&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
   <script defer src="./motion.js"></script>
 </head>
@@ -27,7 +27,12 @@
         <span class="envelope-art" aria-hidden="true">
           <span class="envelope-back"></span>
           <span class="envelope-flap"></span>
-          <span class="letter"><span class="letter-name">Fatima Gabriela</span></span>
+          <span class="letter-slot">
+            <span class="letter">
+              <span class="letter-ornament">❦</span>
+              <span class="letter-name">Fatima Gabriela</span>
+            </span>
+          </span>
           <span class="envelope-pocket"></span>
           <span class="wax-seal"></span>
         </span>
@@ -35,25 +40,38 @@
 
       <section class="guide" aria-labelledby="guia">
         <div class="guide-heading">
-          <h1 id="guia" tabindex="-1">Fiesta de graduación</h1>
+          <span class="ornament" aria-hidden="true">❦</span>
+          <h1 id="guia" tabindex="-1">Fiesta de <span>graduación</span></h1>
           <p>Celebra con nosotros</p>
         </div>
         <ol class="steps">
           <li class="step">
-            <span class="step-number" aria-hidden="true">01</span>
             <h2>Fecha y hora</h2>
-            <p class="step-detail"><time datetime="2026-11-25T16:00:00-06:00">Miércoles 25 de noviembre<br>4:00 p. m.</time></p>
+            <p class="step-detail">
+              <time datetime="2026-11-28">Sábado 28 de noviembre</time><br>
+              De <time datetime="2026-11-28T08:00:00-06:00">8:00 a. m.</time>
+              a <time datetime="2026-11-28T11:00:00-06:00">11:00 a. m.</time>
+            </p>
           </li>
           <li class="step">
-            <span class="step-number" aria-hidden="true">02</span>
             <h2>Lugar</h2>
-            <p class="step-detail">Calle Cualquiera</p>
+            <p class="step-detail venue-name">El Zócalo<span>San Benito</span></p>
+            <figure class="venue-map">
+              <iframe
+                title="Mapa de El Zócalo, San Benito"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3259.378!2d-89.242064!3d13.688731!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f633161cef70b05%3A0x5a348999ef644609!2sEl%20Z%C3%B3calo%20%7C%20San%20Benito!5e0!3m2!1ses!2ssv!4v1760000000000!5m2!1ses!2ssv"
+                loading="lazy"
+                allowfullscreen></iframe>
+              <figcaption>
+                <address>Bulevar del Hipódromo 441<br>Colonia San Benito, San Salvador</address>
+                <a href="https://www.google.com/maps?cid=6499971456441796105" target="_blank" rel="noopener noreferrer">Abrir en Google Maps</a>
+              </figcaption>
+            </figure>
+            <p class="venue-note">Te esperamos en el jardín privado.</p>
           </li>
           <li class="step step-rsvp">
-            <span class="step-number" aria-hidden="true">03</span>
-            <h2>Confirma tu asistencia</h2>
-            <p>Deja tu nombre en el formulario de invitados.</p>
-            <a class="registration-link" href="./registro.html">Registrarme para la graduación <span aria-hidden="true">↗</span></a>
+            <h2>Confirmación de asistencia</h2>
+            <a class="registration-link" href="./registro.html">Confirmar mi asistencia</a>
           </li>
         </ol>
       </section>
