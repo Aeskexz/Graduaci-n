@@ -284,7 +284,7 @@ function startServer() {
 
   function showRegistration(response, status = 200, message = '', confirmed = false) {
     const notice = confirmed
-      ? '<div class="registration-confirmation" role="status">Muchas gracias, ¡te esperamos!<p class="gift-note">Invitación válida para una persona.<br>Obsequio en sobre por invitado.</p></div>'
+      ? '<div class="registration-confirmation" role="status">Muchas gracias, ¡te esperamos!<p class="gift-note">Invitación 1 persona<br>Regalo de sobre</p></div>'
       : message ? '<p class="registration-status">' + message + '</p>' : '';
     let page = registrationPage.replace('<!-- registration-status -->', notice);
     if (confirmed) page = page.replace('<form class="registration-form"', '<form hidden class="registration-form"');
