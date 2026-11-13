@@ -28,7 +28,7 @@ window.addEventListener('pageshow', (event) => {
 const form = invitation.querySelector('.invitation-rsvp');
 const status = invitation.querySelector('.registration-status');
 const submit = form.querySelector('button');
-const giftNote = invitation.querySelector('.gift-note');
+const giftNote = invitation.querySelector('#frase-regalo');
 let confirmation;
 
 form.hidden = !form.hasAttribute('data-habilitado');
@@ -70,7 +70,7 @@ form.addEventListener('submit', async (event) => {
     form.hidden = true;
     status.classList.add('registration-confirmation');
     status.textContent = 'Muchas gracias, ¡te esperamos!';
-    giftNote.hidden = false;
+    status.append(giftNote.content.cloneNode(true));
   } catch {
     status.textContent = 'No pudimos verificar tu confirmación. Vuelve a intentarlo.';
   } finally {
