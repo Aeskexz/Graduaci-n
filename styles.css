@@ -438,6 +438,8 @@ a { color: inherit; }
 .step-rsvp .registration-status:empty { display: none; }
 .step-rsvp .registration-status:not(.registration-confirmation) { margin: 12px 0 0; }
 .registration-status { margin: 0 0 14px; color: var(--ink); line-height: 1.4; }
+.name-reminder { margin: 7px 0 0; color: #465f71; font-size: .85rem; }
+.gift-note { margin: 12px 0 0; text-align: center; font: 600 1.12rem/1.3 var(--serif); }
 
 .registration-confirmation {
   margin: 0;

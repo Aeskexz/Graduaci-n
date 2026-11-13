@@ -77,12 +77,14 @@
             <form class="registration-form invitation-rsvp" action="./api/confirmaciones" method="post" hidden>
               <div class="name-field">
                 <label for="nombre-invitado">Nombre completo</label>
-                <input id="nombre-invitado" name="nombre" autocomplete="name" required maxlength="120">
+                <input id="nombre-invitado" name="nombre" autocomplete="name" required pattern=".*\S.*" maxlength="120" aria-describedby="recordatorio-nombre">
+                <p class="name-reminder" id="recordatorio-nombre">Recuerda poner tu nombre completo</p>
               </div>
               <button type="submit">Confirmar mi asistencia</button>
             </form>
             <noscript>Activa JavaScript para confirmar tu asistencia aquí.</noscript>
             <p class="registration-status" role="status"></p>
+            <p class="gift-note" hidden>Tus muestras de cariño en regalo de sobre</p>
           </li>
         </ol>
       </section>

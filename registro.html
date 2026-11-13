@@ -22,7 +22,8 @@
       <form class="registration-form" method="post" action="./registro.html">
         <div class="name-field">
           <label for="guest-name">Nombre completo</label>
-          <input id="guest-name" name="nombre" type="text" autocomplete="name" required maxlength="120">
+          <input id="guest-name" name="nombre" type="text" autocomplete="name" required pattern=".*\S.*" maxlength="120" aria-describedby="recordatorio-nombre">
+          <p class="name-reminder" id="recordatorio-nombre">Recuerda poner tu nombre completo</p>
         </div>
         <button type="submit">Confirmar asistencia</button>
       </form>
