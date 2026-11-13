@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; frame-src https://www.google.com; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; frame-src https://www.google.com; connect-src 'self'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <meta name="theme-color" content="#f7f4ec">
   <meta name="description" content="Invitación a la fiesta de graduación.">
@@ -43,7 +43,7 @@
       <section class="guide" aria-labelledby="guia-titulo">
         <div class="guide-heading">
           <span class="ornament" aria-hidden="true">❦</span>
-          <h1 id="guia-titulo" tabindex="-1">Fiesta de <span>graduación</span></h1>
+          <h1 id="guia-titulo" tabindex="-1">Desayuno de <span>graduación</span></h1>
           <p>Celebra con nosotros</p>
         </div>
         <ol class="steps">
@@ -74,6 +74,15 @@
           <li class="step step-rsvp">
             <h2>Confirmación de asistencia</h2>
             <a class="registration-link" href="./registro.html">Confirmar mi asistencia</a>
+            <form class="registration-form invitation-rsvp" action="./api/confirmaciones" method="post" hidden>
+              <div class="name-field">
+                <label for="nombre-invitado">Nombre completo</label>
+                <input id="nombre-invitado" name="nombre" autocomplete="name" required maxlength="120">
+              </div>
+              <button type="submit">Confirmar mi asistencia</button>
+            </form>
+            <noscript>Activa JavaScript para confirmar tu asistencia aquí.</noscript>
+            <p class="registration-status" role="status"></p>
           </li>
         </ol>
       </section>

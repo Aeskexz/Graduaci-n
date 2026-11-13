@@ -1,4 +1,5 @@
 const { mkdirSync, readFileSync, renameSync, writeFileSync } = require('node:fs');
+const { execFileSync } = require('node:child_process');
 const { createServer } = require('node:http');
 const { homedir, networkInterfaces } = require('node:os');
 const { join } = require('node:path');
@@ -24,7 +25,7 @@ database.exec(`
 const mode = process.argv[2];
 if (mode === '--asistentes') {
   try {
-    console.log(writeAttendeeReport());
+    console.log(writeAttendeeReport(readCloudConfirmations()));
   } finally {
     database.close();
   }
@@ -38,8 +39,27 @@ if (mode === '--asistentes') {
   startServer();
 }
 
-function writeAttendeeReport() {
-  const rows = database.prepare('SELECT nombre FROM registros ORDER BY id').all();
+function readCloudConfirmations() {
+  const pnpm = process.env.GRADUACION_PNPM_CLI || join(homedir(), '.cache', 'codex-runtimes',
+    'codex-primary-runtime', 'dependencies', 'node', 'node_modules', 'pnpm', 'bin', 'pnpm.cjs');
+  const output = execFileSync(process.execPath, [
+    pnpm, 'dlx', 'wrangler@4.160.1', 'd1', 'execute', 'graduacion-confirmaciones',
+    '--remote', '--json', '--command',
+    'SELECT nombre FROM confirmaciones ORDER BY registrado_utc, id',
+  ], {
+    cwd: __dirname,
+    encoding: 'utf8',
+    env: { ...process.env, Path: join(process.execPath, '..') + ';' + (process.env.Path || '') },
+    windowsHide: true,
+  });
+  const [result] = JSON.parse(output);
+  if (!result?.success || !Array.isArray(result.results)) {
+    throw new Error('Cloudflare no devolvió la lista de confirmaciones.');
+  }
+  return result.results;
+}
+
+function writeAttendeeReport(rows, filename = 'asistentes.html') {
   const names = rows.map(({ nombre }) => {
     const escapedName = nombre.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
     return `      <li>${escapedName}</li>`;
@@ -47,7 +67,7 @@ function writeAttendeeReport() {
   const content = names.length
     ? `    <ol>\n${names.join('\n')}\n    </ol>`
     : '    <p>Aún no hay confirmaciones de asistencia.</p>';
-  const reportPath = join(dataDirectory, 'asistentes.html');
+  const reportPath = join(dataDirectory, filename);
   const temporaryPath = join(dataDirectory, `asistentes-${process.pid}.tmp`);
 
   writeFileSync(temporaryPath, `<!doctype html>
@@ -69,6 +89,9 @@ function writeAttendeeReport() {
   <main>
     <h1>Asistentes a la graduación</h1>
     <p>Total de confirmaciones: ${rows.length}</p>
+    <p>${filename === 'asistentes.html'
+      ? 'Copia privada de Cloudflare. Para actualizarla, ejecuta iniciar.cmd --asistentes y recarga esta página.'
+      : 'Copia de los registros del servidor local.'}</p>
 ${content}
   </main>
 </body>
@@ -81,7 +104,8 @@ ${content}
 
 function refreshAttendeeReport() {
   try {
-    writeAttendeeReport();
+    const rows = database.prepare('SELECT nombre FROM registros ORDER BY id').all();
+    writeAttendeeReport(rows, 'asistentes-local.html');
   } catch (error) {
     console.error('No se pudo actualizar la lista privada de asistentes:', error.message);
   }

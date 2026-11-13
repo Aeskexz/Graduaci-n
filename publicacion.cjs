@@ -17,10 +17,11 @@ function useWebpBackgrounds(contents) {
 }
 
 if (require.main === module) {
-  const origin = publicOriginFrom(process.env.GRADUACION_PUBLIC_URL || '');
-  const destination = process.argv[2] || '_site';
+  const apiUrl = process.env.GRADUACION_API_URL;
+  const origin = process.argv.includes('--cloudflare') || !apiUrl ? '' : publicOriginFrom(apiUrl);
+  const destination = process.argv.slice(2).find(argument => argument !== '--cloudflare') || '_site';
   const index = readFileSync(join(__dirname, 'index.html'), 'utf8');
-  const localLink = 'href="./registro.html"';
+  const localLink = '<a class="registration-link" href="./registro.html">Confirmar mi asistencia</a>';
   if (!index.includes(localLink)) throw new Error('Falta el enlace al registro en index.html.');
 
   mkdirSync(destination);
@@ -30,7 +31,10 @@ if (require.main === module) {
   }
   const styles = readFileSync(join(__dirname, 'styles.css'), 'utf8');
   writeFileSync(join(destination, 'styles.css'), useWebpBackgrounds(styles));
-  let indexForPages = useWebpBackgrounds(index).replace(localLink, 'href="' + origin + '/registro.html"');
+  let indexForPages = useWebpBackgrounds(index)
+    .replace(localLink, '')
+    .replace('action="./api/confirmaciones"', `data-habilitado action="${origin || '.'}/api/confirmaciones"`)
+    .replace("connect-src 'self';", `connect-src 'self'${origin ? ' ' + origin : ''};`);
   for (const file of ['styles.css', 'motion.js']) {
     const version = createHash('sha256').update(readFileSync(join(destination, file))).digest('hex').slice(0, 12);
     indexForPages = indexForPages.replace(`"./${file}"`, `"./${file}?v=${version}"`);

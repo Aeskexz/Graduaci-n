@@ -433,6 +433,10 @@ a { color: inherit; }
 }
 
 .registration-form button { justify-self: center; cursor: pointer; }
+.invitation-rsvp { margin-top: 18px; }
+.registration-form button:disabled { cursor: wait; opacity: .7; }
+.step-rsvp .registration-status:empty { display: none; }
+.step-rsvp .registration-status:not(.registration-confirmation) { margin: 12px 0 0; }
 .registration-status { margin: 0 0 14px; color: var(--ink); line-height: 1.4; }
 
 .registration-confirmation {

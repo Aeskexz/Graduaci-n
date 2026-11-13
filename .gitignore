@@ -1,5 +1,8 @@
 # Base local, respaldos y exportaciones de inscritos
 /_site/
+/.wrangler/
+/.dev.vars*
+node_modules/
 InvitacionGraduacion/
 data/
 datos/
@@ -8,6 +11,7 @@ respaldos/
 exports/
 exportaciones/
 asistentes.html
+asistentes-local.html
 *.sqlite*
 *.db
 *.db-*

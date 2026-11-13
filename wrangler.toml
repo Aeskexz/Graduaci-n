@@ -1,0 +1,23 @@
+name = "graduacion"
+main = "confirmaciones.mjs"
+compatibility_date = "2026-11-12"
+workers_dev = true
+preview_urls = false
+
+[assets]
+directory = "./_site"
+binding = "ASSETS"
+run_worker_first = ["/api/*", "/registro.html"]
+
+[vars]
+GITHUB_PAGES_ORIGIN = "https://aeskexz.github.io"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "graduacion-confirmaciones"
+database_id = "cf85f0ee-c528-4918-bd0a-bc54af09245e"
+
+[[ratelimits]]
+name = "CONFIRMATION_LIMIT"
+namespace_id = "1101"
+simple = { limit = 20, period = 60 }
